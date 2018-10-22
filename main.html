@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="assets/w3.css">
+<script src="assets/simple.js"></script>
 <style>
 body, html {
     height: 100%;
@@ -27,7 +28,7 @@ body, html {
 <!-- Header with image -->
 <header class="bgimg w3-display-container" id="home">
   <div class="w3-display-middle w3-center w3-panel w3-black w3-opacity w3-round-large">
-    <span class="w3-text-white" style="font-size:90px">QBulBul</span>
+
   </div>
 </header>
 
@@ -40,45 +41,47 @@ body, html {
   <!-- content 1 -->
   <div class="w3-col s6 w3-center">
   <div class="w3-content" style="max-width:700px">
-    <form class="w3-container w3-card-4">
+    <div class="w3-container w3-card-4">
       <div  class="w3-content w3-left-align" style="max-width:350px">
       <h3>Queue Location:</h3>
 
-      <input class="w3-radio" type="radio" name="queueLocation" value="Village">
+      <input  type="radio" name="queueLocation" value="Village">
       <label>Village</label>
       <br>
-      <input class="w3-radio" type="radio" name="queueLocation" value="Resources">
+      <input  type="radio" name="queueLocation" value="Resources">
       <label>Resources</label>
 
       <h3>Queue Type:</h3>
 
-      <input class="w3-radio" type="radio" name="queueType" value="Construct">
+      <input  type="radio" name="queueType" value="Construct">
       <label>Construct</label>
       <br>
-      <input class="w3-radio" type="radio" name="queueType" value="Upgrade">
+      <input  type="radio" name="queueType" value="Upgrade">
       <label>Upgrade</label>
 
       <h3>Queue Building:</h3>
-      <select class="w3-select w3-border" name="option1">
+      <select class="w3-select w3-border" name="option">
        <option value="buildingType, buildingId">Choose your option</option>
        <option value="buildingType, buildingId">buildingName 1</option>
        <option value="buildingType, buildingId">buildingName 2</option>
        <option value="buildingType, buildingId">buildingName 3</option>
       </select>
-      <p><button class="w3-button w3-black w3-hover-white w3-border">Add</button></p>
+      <!-- button add table -->
+      <p><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="add_table()">Add</button></p>
+
     </div>
     <div class="w3-panel w3-bottombar"></div>
-    <div  class="w3-content w3-left-align w3-padding-16" style="max-width:700px">
+    <div  class="w3-content w3-left-align w3-padding-8" style="max-width:700px">
     <p>Tile references:</p>
-    <select class="w3-select w3-border" name="option2" style="max-width:200px">
+    <select class="w3-select w3-border" name="option" style="max-width:200px">
      <option value="None">Choose your option</option>
      <option value="4446">4446</option>
      <option value="3339">9 crop</option>
      <option value="11115">15 crop</option>
     </select>
-     <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:600px"> 
+     <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:100%">
   </div>
-    </form>
+</div>
   </div>
 </div>
 <!-- end of content 1 -->
@@ -99,18 +102,53 @@ body, html {
       </thead>
 
     </table>
-    <p><button class="w3-button w3-black w3-hover-white w3-border">Finish!</button></p>
+    <p><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generate_json()">Finish!</button></p>
   </div>
 </div>
 </div>
 </div>
 <!-- end of content 2 -->
 </div>
-
+<p id="target"> </p>
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </footer>
 
+<script type="text/javascript">
+
+  function loadFile() {
+    var input, file, fr;
+
+    if (typeof window.FileReader !== 'function') {
+      alert("The file API isn't supported on this browser yet.");
+      return;
+    }
+
+    input = document.getElementById('fileinput');
+    if (!input) {
+      alert("Um, couldn't find the fileinput element.");
+    }
+    else if (!input.files) {
+      alert("This browser doesn't seem to support the `files` property of file inputs.");
+    }
+    else if (!input.files[0]) {
+      alert("Please select a file before clicking 'Load'");
+    }
+    else {
+      file = input.files[0];
+      console.log(file)
+      fr = new FileReader();
+      fr.onload = receivedText;
+      fr.readAsText(file);
+    }
+
+    function receivedText(e) {
+      let lines = e.target.result;
+      var newArr = JSON.parse(lines);
+      document.getElementById('target').innerHTML = newArr.buildings
+    }
+  }
+</script>
 </body>
 </html>
