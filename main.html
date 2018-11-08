@@ -19,6 +19,10 @@ body, html {
 * {
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
+
+td, th {
+  border: 1px solid black;
+}
 </style>
 <body>
 
@@ -45,29 +49,30 @@ body, html {
       <div  class="w3-content w3-left-align" style="max-width:350px">
       <h3>Queue Location:</h3>
 
-      <input  type="radio" name="queueLocation" value="Village">
+      <input  type="radio" name="queueLocation" value="Village" onclick="get_location(this)">
       <label>Village</label>
       <br>
-      <input  type="radio" name="queueLocation" value="Resources">
+      <input  type="radio" name="queueLocation" value="Resources" onclick="get_location(this)">
       <label>Resources</label>
 
       <h3>Queue Type:</h3>
-
-      <input  type="radio" name="queueType" value="Construct">
+      <input  type="radio" name="queueType" value="Construct" onclick="print_options(this)" disabled>
       <label>Construct</label>
       <br>
-      <input  type="radio" name="queueType" value="Upgrade">
+      <input  type="radio" name="queueType" value="Upgrade" onclick="print_options(this)" disabled>
       <label>Upgrade</label>
 
-      <h3>Queue Building:</h3>
-      <select class="w3-select w3-border" name="option">
+      <h3 id="h3">Queue Building:</h3>
+      <select id="targetOption" class="w3-select w3-border" name="option">
+        <!--
        <option value="buildingType, buildingId">Choose your option</option>
        <option value="buildingType, buildingId">buildingName 1</option>
        <option value="buildingType, buildingId">buildingName 2</option>
        <option value="buildingType, buildingId">buildingName 3</option>
+     -->
       </select>
       <!-- button add table -->
-      <p><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="add_table()">Add</button></p>
+      <p><button id="add" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="add_table()" disabled>Add</button></p>
 
     </div>
     <div class="w3-panel w3-bottombar"></div>
@@ -79,7 +84,8 @@ body, html {
      <option value="3339">9 crop</option>
      <option value="11115">15 crop</option>
     </select>
-     <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:100%">
+     <div style="padding-bottom:10px">
+       <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:100%"></div>
   </div>
 </div>
   </div>
@@ -91,10 +97,10 @@ body, html {
 <div class="w3-content w3-left-align" style="max-width:700px">
 <div class="w3-container w3-card-4">
   <div class="w3-content w3-padding-16">
-  <table class="w3-table-all">
+  <table class="w3-table-all" id="targetTable">
       <thead>
         <tr class="w3-black">
-          <th>remove</th>
+          <th>Action</th>
           <th>Queue Location</th>
           <th>Queue Type</th>
           <th>Queue Building</th>
@@ -102,7 +108,10 @@ body, html {
       </thead>
 
     </table>
-    <p><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generate_json()">Finish!</button></p>
+    <p>
+    <div class="w3-col s6"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generate_json()">Finish!</button></div>
+    <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clear_table()">Clear!</button></div></div>
+    </p>
   </div>
 </div>
 </div>
@@ -113,42 +122,8 @@ body, html {
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+
+  <p>Educated by <a href="https://www.w3schools.com/" title="W3 Schools" target="_blank" class="w3-hover-text-green">w3 Schools</a></p>
 </footer>
-
-<script type="text/javascript">
-
-  function loadFile() {
-    var input, file, fr;
-
-    if (typeof window.FileReader !== 'function') {
-      alert("The file API isn't supported on this browser yet.");
-      return;
-    }
-
-    input = document.getElementById('fileinput');
-    if (!input) {
-      alert("Um, couldn't find the fileinput element.");
-    }
-    else if (!input.files) {
-      alert("This browser doesn't seem to support the `files` property of file inputs.");
-    }
-    else if (!input.files[0]) {
-      alert("Please select a file before clicking 'Load'");
-    }
-    else {
-      file = input.files[0];
-      console.log(file)
-      fr = new FileReader();
-      fr.onload = receivedText;
-      fr.readAsText(file);
-    }
-
-    function receivedText(e) {
-      let lines = e.target.result;
-      var newArr = JSON.parse(lines);
-      document.getElementById('target').innerHTML = newArr.buildings
-    }
-  }
-</script>
 </body>
 </html>
