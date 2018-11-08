@@ -27,9 +27,11 @@ function addTable(){
   var cell3 = row.insertCell(2);
   var cell4 = row.insertCell(3);
   var btn1 = document.createElement('button');
+  btn1.setAttribute('font-size', '5px')
   btn1.setAttribute('onclick', 'copyRow(this)')
   btn1.innerHTML = '+';
   var btn2 = document.createElement('button');
+  btn2.setAttribute('font-size', '5px')
   btn2.setAttribute('onclick', 'deleteRow(this)')
   btn2.innerHTML = '-';
   cell1.appendChild(btn1);
@@ -41,6 +43,8 @@ function addTable(){
 
 function generateJson(){
   //document.getElementById('target').innerHTML = 'test';
+  var modal = document.getElementById('myModal');
+  modal.style.display = "block";
 }
 
 function getLocation(location){
@@ -320,7 +324,7 @@ function printOptions(location){
       options.setAttribute('value', buildings[i]['buildingName']);
       options.text = buildings[i]['buildingName'];
       target.appendChild(options);
-    }    
+    }
   }
 }
 
@@ -341,4 +345,9 @@ function clearTable(){
   for (rowCount; rowCount>0; rowCount--){
     table.deleteRow(rowCount);
   }
+}
+
+function closeModal(){
+  var modal = document.getElementById('myModal');
+  modal.style.display = "none";
 }
