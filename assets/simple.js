@@ -1,4 +1,4 @@
-function add_table(){
+function addTable(){
   var queueLocation, queueType, queueBuilding;
   var radios = document.getElementsByName('queueLocation');
   for (let i=0; i<radios.length; i++){
@@ -27,8 +27,10 @@ function add_table(){
   var cell3 = row.insertCell(2);
   var cell4 = row.insertCell(3);
   var btn1 = document.createElement('button');
+  btn1.setAttribute('onclick', 'copyRow(this)')
   btn1.innerHTML = '+';
   var btn2 = document.createElement('button');
+  btn2.setAttribute('onclick', 'deleteRow(this)')
   btn2.innerHTML = '-';
   cell1.appendChild(btn1);
   cell1.appendChild(btn2);
@@ -37,11 +39,11 @@ function add_table(){
   cell4.innerHTML = queueBuilding;
 }
 
-function generate_json(){
-  document.getElementById('target').innerHTML = 'test';
+function generateJson(){
+  //document.getElementById('target').innerHTML = 'test';
 }
 
-function get_location(location){
+function getLocation(location){
   var resources = [
     {"queueBuilding" : "buildingLocation1"},
     {"queueBuilding" : "buildingLocation2"},
@@ -108,7 +110,7 @@ function get_location(location){
   };
 }
 
-function print_options(location){
+function printOptions(location){
   document.getElementById('add').removeAttribute("disabled");
   var buildings = [
     {
@@ -302,22 +304,41 @@ function print_options(location){
       "buildingType" : "buildingType45"
     }
   ];
-  var target = document.getElementById('targetOption');
-  var h3 = document.getElementById('h3');
-  target.remove();
-  var target = document.createElement('select');
-  target.setAttribute('id', 'targetOption');
-  target.setAttribute('class', 'w3-select w3-border');
-  target.setAttribute('name', 'option');
-  h3.appendChild(target);
-  //var select = document.createElement('select');
-  //select.setAttribute('class', 'w3-select w3-border');
-  //select.setAttribute('name', 'option');
-  //target.appendChild(select);
-  for (let i=0; i<buildings.length; i++){
-    var options = document.createElement('option');
-    options.setAttribute('value', buildings[i]['buildingName']);
-    options.text = buildings[i]['buildingName'];
-    target.appendChild(options);
+  var sel = document.getElementById('targetOption');
+  var selLength = sel.options.length;
+  if (selLength <= 0){
+    var target = document.getElementById('targetOption');
+    var h3 = document.getElementById('h3');
+    target.remove();
+    var target = document.createElement('select');
+    target.setAttribute('id', 'targetOption');
+    target.setAttribute('class', 'w3-select w3-border');
+    target.setAttribute('name', 'option');
+    h3.appendChild(target);
+    for (let i=0; i<buildings.length; i++){
+      var options = document.createElement('option');
+      options.setAttribute('value', buildings[i]['buildingName']);
+      options.text = buildings[i]['buildingName'];
+      target.appendChild(options);
+    }    
+  }
+}
+
+function deleteRow(btn){
+  var row = btn.parentNode.parentNode;
+  row.parentNode.removeChild(row)
+}
+
+function copyRow(btn){
+  var row = btn.parentNode.parentNode;
+  var clone = row.cloneNode(true);
+  document.getElementById('targetTable').appendChild(clone);
+}
+
+function clearTable(){
+  var table = document.getElementById('targetTable');
+  var rowCount = table.rows.length - 1;
+  for (rowCount; rowCount>0; rowCount--){
+    table.deleteRow(rowCount);
   }
 }

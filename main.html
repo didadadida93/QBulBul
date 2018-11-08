@@ -49,17 +49,17 @@ td, th {
       <div  class="w3-content w3-left-align" style="max-width:350px">
       <h3>Queue Location:</h3>
 
-      <input  type="radio" name="queueLocation" value="Village" onclick="get_location(this)">
+      <input  type="radio" name="queueLocation" value="Village" onclick="getLocation(this)">
       <label>Village</label>
       <br>
-      <input  type="radio" name="queueLocation" value="Resources" onclick="get_location(this)">
+      <input  type="radio" name="queueLocation" value="Resources" onclick="getLocation(this)">
       <label>Resources</label>
 
       <h3>Queue Type:</h3>
-      <input  type="radio" name="queueType" value="Construct" onclick="print_options(this)" disabled>
+      <input  type="radio" name="queueType" value="Construct" onclick="printOptions(this)" disabled>
       <label>Construct</label>
       <br>
-      <input  type="radio" name="queueType" value="Upgrade" onclick="print_options(this)" disabled>
+      <input  type="radio" name="queueType" value="Upgrade" onclick="printOptions(this)" disabled>
       <label>Upgrade</label>
 
       <h3 id="h3">Queue Building:</h3>
@@ -72,7 +72,7 @@ td, th {
      -->
       </select>
       <!-- button add table -->
-      <p><button id="add" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="add_table()" disabled>Add</button></p>
+      <p><button id="add" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="addTable()" disabled>Add</button></p>
 
     </div>
     <div class="w3-panel w3-bottombar"></div>
@@ -84,7 +84,7 @@ td, th {
      <option value="3339">9 crop</option>
      <option value="11115">15 crop</option>
     </select>
-     <div style="padding-bottom:10px">
+     <div style="padding-bottom:10px; padding-top:5px">
        <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:100%"></div>
   </div>
 </div>
@@ -109,8 +109,8 @@ td, th {
 
     </table>
     <p>
-    <div class="w3-col s6"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generate_json()">Finish!</button></div>
-    <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clear_table()">Clear!</button></div></div>
+    <div class="w3-col s6"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generateJson()">Finish!</button></div>
+    <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clearTable()">Clear!</button></div></div>
     </p>
   </div>
 </div>
