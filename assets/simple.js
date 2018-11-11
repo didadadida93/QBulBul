@@ -39,12 +39,27 @@ function addTable(){
   cell2.innerHTML = queueLocation;
   cell3.innerHTML = queueType;
   cell4.innerHTML = queueBuilding;
+
+  document.getElementById('generatejson').removeAttribute('disabled');
+  document.getElementById('cleartable').removeAttribute('disabled');
 }
 
 function generateJson(){
-  //document.getElementById('target').innerHTML = 'test';
-  var modal = document.getElementById('myModal');
-  modal.style.display = "block";
+  var targetModal = document.getElementById('targetModal');
+  var table = document.getElementById('targetTable');
+  var text = '';
+  var row = table.rows.length;
+  for (let i=1; i<row; i++){
+    var cell = table.rows[i].cells.length;
+    for (let y=1; y<cell; y++){
+      text += table.rows[i].cells[y].innerHTML;
+    };
+  };
+  targetModal.innerHTML = text;
+  var modal = document.getElementById('modal');
+  var modalOverlay = document.getElementById('modal-overlay');
+  modal.classList.toggle("closed");
+  modalOverlay.classList.toggle("closed");
 }
 
 function getLocation(location){
@@ -345,9 +360,63 @@ function clearTable(){
   for (rowCount; rowCount>0; rowCount--){
     table.deleteRow(rowCount);
   }
+  document.getElementById('generatejson').setAttribute('disabled', 'disabled');
+  document.getElementById('cleartable').setAttribute('disabled', 'disabled');
 }
 
 function closeModal(){
   var modal = document.getElementById('myModal');
   modal.style.display = "none";
+}
+
+function copyText(){
+  var textArea = document.createElement('textarea');
+  textArea.value = '{"queues":[';
+  var queues = ['', 'queueLocation', 'queueType', 'queueBuilding'];
+  var table = document.getElementById('targetTable');
+  var row = table.rows.length;
+  for (let i=1; i<row; i++){
+    textArea.value += '\n\t{\n';
+    var cell = table.rows[i].cells.length;
+    for (let y=1; y<cell; y++){
+      textArea.value += '\t\t"';
+      textArea.value += queues[y];
+      textArea.value += '": "';
+      textArea.value += table.rows[i].cells[y].innerHTML;
+      textArea.value += '"';
+      if (y<cell-1){
+        textArea.value += ',';
+      };
+      textArea.value += '\n';
+    };
+    textArea.value += '\t}';
+    if (i<row-1){
+      textArea.value += ',';
+    };
+  };
+  textArea.value += '\n]}';
+
+  var targetModal = document.getElementById('targetModal');
+  targetModal.appendChild(textArea);
+
+  //document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  document.execCommand('copy');
+  //document.body.removeChild(textArea);
+
+  targetModal.removeChild(textArea);
+
+  var op = 1;  // initial opacity
+  element = document.getElementById('anotherTarget');
+  element.style.display = 'inline';
+  var timer = setInterval(function () {
+      if (op <= 0.1){
+          clearInterval(timer);
+          element.style.display = 'none';
+      }
+      element.style.opacity = op;
+      element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+      op -= op * 0.1;
+  }, 50);
 }

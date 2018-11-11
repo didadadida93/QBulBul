@@ -24,59 +24,112 @@ td, th {
   border: 1px solid black;
 }
 
-/* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+
+  /* Probably need media queries here */
+  width: 600px;
+  max-width: 100%;
+
+  height: 400px;
+  max-height: 100%;
+
+  position: fixed;
+
+  z-index: 100;
+
+  left: 50%;
+  top: 50%;
+
+  /* Use this for centering if unknown width/height */
+  transform: translate(-50%, -50%);
+
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+
+  background: white;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+}
+.closed {
+  display: none;
 }
 
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+
+  background: rgba(0, 0, 0, 0.6);
+}
+.modal-guts {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px 50px 20px 20px;
 }
 
-/* The Close Button */
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.modal .close-button {
+  position: absolute;
+
+  /* don't need to go crazy with z-index here, just sits over .modal-guts */
+  z-index: 1;
+
+  top: 10px;
+
+  /* needs to look OK with or without scrollbar */
+  right: 20px;
+
+  border: 0;
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  font-size: 1.3rem;
 }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+.modal-footer {
+  position: fixed;
+  width: 90%;
+  bottom: 0;
+  background-color: white;
+  margin-bottom: 0px;
 }
+
 </style>
 <body>
 
 <!-- Links (sit on top) -->
-<!-- The Modal -->
+<!-- The Modal
 <div id="myModal" class="modal">
 
-  <!-- Modal content -->
+  //Modal content
   <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <p>Some text in the Modal..</p>
+      <span class="close" onclick="closeModal()">&times;</span>
+    <div>
+      <div id="targetModal"></div>
+    </div>
   </div>
-
 </div>
+-->
 
+<div class="modal-overlay" id="modal-overlay"></div>
+
+<div class="modal" id="modal">
+  <button class="close-button w3-button w3-black w3-hover-white w3-border" id="close-button">&times;</button>
+  <div class="modal-guts">
+
+    <h1>Result</h1>
+    <p id="targetModal"></p>
+    <div class="modal-footer"><button class="w3-button w3-black w3-hover-white w3-border" onclick="copyText()">Copy!</button>
+    <span id="anotherTarget" style="display:none;">Copied!</span></div>
+  </div>
+</div>
 <!-- Header with image -->
 <header class="bgimg w3-display-container" id="home">
   <div class="w3-display-middle w3-center w3-panel w3-black w3-opacity w3-round-large">
@@ -157,8 +210,8 @@ td, th {
 
     </table>
     <p>
-    <div class="w3-col s6"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generateJson()">Finish!</button></div>
-    <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clearTable()">Clear!</button></div></div>
+    <div class="w3-col s6"><button id="generatejson" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generateJson()" disabled>Finish!</button></div>
+    <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button id="cleartable" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clearTable()" disabled>Clear!</button></div></div>
     </p>
   </div>
 </div>
@@ -170,16 +223,56 @@ td, th {
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
-
-  <p>Educated by <a href="https://www.w3schools.com/" title="W3 Schools" target="_blank" class="w3-hover-text-green">w3 Schools</a></p>
 </footer>
 <script>
 // When the user clicks anywhere outside of the modal, close it
-var modal = document.getElementById('myModal');
+var modal = document.getElementById('modal');
+var modalOverlay = document.getElementById('modal-overlay');
+window.onload = function() {
+  modal.classList.toggle("closed");
+  modalOverlay.classList.toggle("closed");
+};
+var closeButton = document.getElementById("close-button");
+closeButton.addEventListener("click", function() {
+  modal.classList.toggle("closed");
+  modalOverlay.classList.toggle("closed");
+});
+var generateJson = document.getElementById("generatejson");
+generateJson.addEventListener("click", function() {
+  var targetModal = document.getElementById('targetModal');
+  var table = document.getElementById('targetTable');
+  var text = '{&quotqueues&quot:[';
+  var queues = ['', 'queueLocation', 'queueType', 'queueBuilding'];
+  var row = table.rows.length;
+  for (let i=1; i<row; i++){
+    text += '<br>&nbsp&nbsp&nbsp&nbsp{<br>';
+    var cell = table.rows[i].cells.length;
+    for (let y=1; y<cell; y++){
+      text += '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&quot';
+      text += queues[y];
+      text += '&quot:&nbsp&quot';
+      text += table.rows[i].cells[y].innerHTML;
+      text += '&quot';
+      if (y<cell-1){
+        text += ',';
+      };
+      text += '<br>';
+    };
+    text += '&nbsp&nbsp&nbsp&nbsp}';
+    if (i<row-1){
+      text += ',';
+    };
+  };
+  text += '<br>]}';
+  targetModal.innerHTML = text;
+  modal.classList.toggle("closed");
+  modalOverlay.classList.toggle("closed");
+});
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+  if (event.target === modalOverlay){
+    modal.classList.toggle("closed");
+    modalOverlay.classList.toggle("closed");
+  }
 }
 </script>
 </html>
