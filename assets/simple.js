@@ -346,6 +346,12 @@ function printOptions(location){
 function deleteRow(btn){
   var row = btn.parentNode.parentNode;
   row.parentNode.removeChild(row)
+  var table = document.getElementById('targetTable');
+  var rowCount = table.rows.length - 1;
+  if (rowCount < 1){
+    document.getElementById('generatejson').setAttribute('disabled', 'disabled');
+    document.getElementById('cleartable').setAttribute('disabled', 'disabled');
+  }
 }
 
 function copyRow(btn){
@@ -419,4 +425,9 @@ function copyText(){
       element.style.filter = 'alpha(opacity=' + op * 100 + ")";
       op -= op * 0.1;
   }, 50);
+}
+
+function printImg(element){
+  var value = element.options[element.selectedIndex].value;
+  document.getElementById('targetImg').setAttribute('src', value);
 }

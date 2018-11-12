@@ -9,10 +9,14 @@
 body, html {
     height: 100%;
 }
+
+table {
+  table-layout: fixed;
+}
 .bgimg {
     background-position: center;
     background-size: cover;
-    background-image: url("assets/11115.png");
+    background-image: url("assets/pictures/11115.png");
     min-height: 75%;
 }
 
@@ -179,14 +183,22 @@ td, th {
     <div class="w3-panel w3-bottombar"></div>
     <div  class="w3-content w3-left-align w3-padding-8" style="max-width:700px">
     <p>Tile references:</p>
-    <select class="w3-select w3-border" name="option" style="max-width:200px">
-     <option value="None">Choose your option</option>
-     <option value="4446">4446</option>
-     <option value="3339">9 crop</option>
-     <option value="11115">15 crop</option>
+    <select class="w3-select w3-border" name="option" style="max-width:200px" onchange="printImg(this)">
+     <option value="assets/pictures/4446.png">Default 4446</option>
+     <option value="assets/pictures/3456.png" disabled>3456</option>
+     <option value="assets/pictures/3546.png" disabled>3546</option>
+     <option value="assets/pictures/4356.png">4356</option>
+     <option value="assets/pictures/5346.png">5346</option>
+     <option value="assets/pictures/4536.png" disabled>4536</option>
+     <option value="assets/pictures/5436.png" disabled>5436</option>
+     <option value="assets/pictures/3447.png" disabled>3447</option>
+     <option value="assets/pictures/4347.png">4347</option>
+     <option value="assets/pictures/4437.png" disabled>4437</option>
+     <option value="assets/pictures/3339.png">9 crop</option>
+     <option value="assets/pictures/11115.png">15 crop</option>
     </select>
      <div style="padding-bottom:10px; padding-top:5px">
-       <img src="assets/4446.png" class="w3-border" alt="4446" style="max-width:100%"></div>
+       <img id="targetImg" src="assets/pictures/4446.png" class="w3-border" alt="4446" style="max-width:100%"></div>
   </div>
 </div>
   </div>
