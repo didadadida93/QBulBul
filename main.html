@@ -13,6 +13,7 @@ body, html {
 table {
   table-layout: fixed;
 }
+
 .bgimg {
     background-position: center;
     background-size: cover;
@@ -55,6 +56,7 @@ td, th {
   background: white;
   box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
 }
+
 .closed {
   display: none;
 }
@@ -69,6 +71,7 @@ td, th {
 
   background: rgba(0, 0, 0, 0.6);
 }
+
 .modal-guts {
   position: absolute;
   top: 0;
@@ -104,24 +107,8 @@ td, th {
   background-color: white;
   margin-bottom: 0px;
 }
-
 </style>
 <body>
-
-<!-- Links (sit on top) -->
-<!-- The Modal
-<div id="myModal" class="modal">
-
-  //Modal content
-  <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-    <div>
-      <div id="targetModal"></div>
-    </div>
-  </div>
-</div>
--->
-
 <div class="modal-overlay" id="modal-overlay"></div>
 
 <div class="modal" id="modal">
@@ -169,14 +156,8 @@ td, th {
 
       <h3 id="h3">Queue Building:</h3>
       <select id="targetOption" class="w3-select w3-border" name="option">
-        <!--
-       <option value="buildingType, buildingId">Choose your option</option>
-       <option value="buildingType, buildingId">buildingName 1</option>
-       <option value="buildingType, buildingId">buildingName 2</option>
-       <option value="buildingType, buildingId">buildingName 3</option>
-     -->
+
       </select>
-      <!-- button add table -->
       <p><button id="add" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="addTable()" disabled>Add</button></p>
 
     </div>
@@ -219,10 +200,9 @@ td, th {
           <th>Queue Building</th>
         </tr>
       </thead>
-
     </table>
     <p>
-    <div class="w3-col s6"><button id="generatejson" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="generateJson()" disabled>Finish!</button></div>
+    <div class="w3-col s6"><button id="finishBtn" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="finishBtn()" disabled>Finish!</button></div>
     <div class="w3-col s6" style="padding-bottom:10px"><div class="w3-right-align"><button id="cleartable" type="button" class="w3-button w3-black w3-hover-white w3-border" onclick="clearTable()" disabled>Clear!</button></div></div>
     </p>
   </div>
@@ -231,11 +211,11 @@ td, th {
 </div>
 <!-- end of content 2 -->
 </div>
-<p id="target"> </p>
 <!-- Footer -->
 <footer class="w3-center w3-light-grey w3-padding-48 w3-large">
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </footer>
+
 <script>
 // When the user clicks anywhere outside of the modal, close it
 var modal = document.getElementById('modal');
@@ -249,8 +229,8 @@ closeButton.addEventListener("click", function() {
   modal.classList.toggle("closed");
   modalOverlay.classList.toggle("closed");
 });
-var generateJson = document.getElementById("generatejson");
-generateJson.addEventListener("click", function() {
+var finishBtn = document.getElementById("finishBtn");
+finishBtn.addEventListener("click", function() {
   var targetModal = document.getElementById('targetModal');
   var table = document.getElementById('targetTable');
   var text = '{&quotqueues&quot:[';

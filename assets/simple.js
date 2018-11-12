@@ -18,8 +18,7 @@ function addTable(){
       queueBuilding = sel.options[i].value;
     }
   }
-  //for checking
-  //document.getElementById('target').innerHTML = queueLocation + queueType + queueBuilding;
+
   var table = document.getElementById('targetTable');
   var row = table.insertRow(-1);
   var cell1 = row.insertCell(0);
@@ -40,26 +39,8 @@ function addTable(){
   cell3.innerHTML = queueType;
   cell4.innerHTML = queueBuilding;
 
-  document.getElementById('generatejson').removeAttribute('disabled');
+  document.getElementById('finishBtn').removeAttribute('disabled');
   document.getElementById('cleartable').removeAttribute('disabled');
-}
-
-function generateJson(){
-  var targetModal = document.getElementById('targetModal');
-  var table = document.getElementById('targetTable');
-  var text = '';
-  var row = table.rows.length;
-  for (let i=1; i<row; i++){
-    var cell = table.rows[i].cells.length;
-    for (let y=1; y<cell; y++){
-      text += table.rows[i].cells[y].innerHTML;
-    };
-  };
-  targetModal.innerHTML = text;
-  var modal = document.getElementById('modal');
-  var modalOverlay = document.getElementById('modal-overlay');
-  modal.classList.toggle("closed");
-  modalOverlay.classList.toggle("closed");
 }
 
 function getLocation(location){
@@ -93,7 +74,7 @@ function getLocation(location){
         radios[i].checked = true;
       }
     };
-    //here
+
     var target = document.getElementById('targetOption');
     var h3 = document.getElementById('h3');
     target.remove();
@@ -117,7 +98,7 @@ function getLocation(location){
         radios[i].checked = false;
       }
     };
-    //next
+
     var target = document.getElementById('targetOption');
     var h3 = document.getElementById('h3');
     target.remove();
@@ -349,7 +330,7 @@ function deleteRow(btn){
   var table = document.getElementById('targetTable');
   var rowCount = table.rows.length - 1;
   if (rowCount < 1){
-    document.getElementById('generatejson').setAttribute('disabled', 'disabled');
+    document.getElementById('finishBtn').setAttribute('disabled', 'disabled');
     document.getElementById('cleartable').setAttribute('disabled', 'disabled');
   }
 }
@@ -366,13 +347,8 @@ function clearTable(){
   for (rowCount; rowCount>0; rowCount--){
     table.deleteRow(rowCount);
   }
-  document.getElementById('generatejson').setAttribute('disabled', 'disabled');
+  document.getElementById('finishBtn').setAttribute('disabled', 'disabled');
   document.getElementById('cleartable').setAttribute('disabled', 'disabled');
-}
-
-function closeModal(){
-  var modal = document.getElementById('myModal');
-  modal.style.display = "none";
 }
 
 function copyText(){
@@ -404,16 +380,11 @@ function copyText(){
 
   var targetModal = document.getElementById('targetModal');
   targetModal.appendChild(textArea);
-
-  //document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
   document.execCommand('copy');
-  //document.body.removeChild(textArea);
-
   targetModal.removeChild(textArea);
-
-  var op = 1;  // initial opacity
+  var op = 1;
   element = document.getElementById('anotherTarget');
   element.style.display = 'inline';
   var timer = setInterval(function () {
